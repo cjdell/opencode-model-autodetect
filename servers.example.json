@@ -1,0 +1,13 @@
+[
+  {
+    "endpoint": "http://box.local:8080/v1",
+    "providerID": "llama",
+    "name": "My box",
+    "stableID": "current",
+    "setDefault": true
+  },
+  {
+    "endpoint": "http://other.local:8000/v1",
+    "providerID": "vllm"
+  }
+]

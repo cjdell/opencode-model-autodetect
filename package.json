@@ -1,0 +1,26 @@
+{
+  "name": "opencode-model-autodetect",
+  "version": "0.1.0",
+  "description": "OpenCode plugin that auto-detects models and context windows from self-hosted OpenAI-compatible servers (llama.cpp and friends)",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cjdell/opencode-model-autodetect.git"
+  },
+  "keywords": ["opencode", "opencode-plugin", "llama.cpp", "self-hosted", "openai-compatible"],
+  "files": ["index.ts", "README.md", "LICENSE", "servers.example.json"],
+  "exports": {
+    ".": "./index.ts"
+  },
+  "peerDependencies": {
+    "@opencode/plugin": ">=2.3.0"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit --allowImportingTsExtensions --target esnext --module nodenext --moduleResolution nodenext --strict index.ts"
+  },
+  "devDependencies": {
+    "@opencode/plugin": "^2.3.2",
+    "typescript": "^5.6.0"
+  }
+}
