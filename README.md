@@ -30,6 +30,12 @@ every time you rotate a quant, resize the context, or hot-swap a model:
 
 ## Install
 
+The plugin is a single TypeScript file and runs identically on macOS, Linux and
+Windows. Only the installer differs by platform — both keep the same
+`auto-context.servers.json`, so you can move between them freely.
+
+### macOS / Linux
+
 One command — installs the plugin **and** registers your endpoint. No config
 files to touch:
 
@@ -38,12 +44,7 @@ curl -fsSL https://raw.githubusercontent.com/cjdell/opencode-model-autodetect/ma
   | bash -s -- add http://box.local:8080/v1
 ```
 
-Restart OpenCode; the server's models show up in the picker. The provider ID
-is derived from the hostname (`http://llama.int.example.org:8080/v1` →
-`llama`); pass a second argument to override it.
-
-Manage endpoints later the same way (save the script once, or re-run the
-curl):
+Manage endpoints later the same way (save the script once, or re-run the curl):
 
 ```sh
 install.sh add <endpoint> [providerID]   # register a server
@@ -52,10 +53,34 @@ install.sh list                          # show what's registered
 install.sh install                       # install/update the plugin file only
 ```
 
-`add` also installs/updates `~/.config/opencode/plugins/auto-context.ts`
-(respects `OPENCODE_CONFIG_DIR`) and keeps endpoints in
-`auto-context.servers.json` next to it — the plugin watches that file, so new
-servers arrive on the next poll without restarting OpenCode.
+### Windows
+
+PowerShell 5.1+ (ships with Windows). One line — installs the plugin **and**
+registers your endpoint:
+
+```powershell
+& ([scriptblock]::Create((irm https://raw.githubusercontent.com/cjdell/opencode-model-autodetect/main/install.ps1))) add http://box.local:8080/v1
+```
+
+The same subcommands are available (`save install.ps1` once, or re-run the
+`irm` line):
+
+```powershell
+.\install.ps1 add <endpoint> [providerID]   # register a server
+.\install.ps1 remove <endpoint>             # forget one
+.\install.ps1 list                          # show what's registered
+.\install.ps1 install                       # install/update the plugin file only
+```
+
+Both installers default to `~/.config/opencode/plugins/` (`$HOME\.config\opencode\plugins`
+on Windows) and respect `OPENCODE_CONFIG_DIR`. `add` installs/updates
+`auto-context.ts` there and keeps endpoints in `auto-context.servers.json`
+next to it — the plugin watches that file, so new servers arrive on the next
+poll without restarting OpenCode.
+
+Restart OpenCode; the server's models show up in the picker. The provider ID
+is derived from the hostname (`http://llama.int.example.org:8080/v1` →
+`llama`); pass a second argument to override it.
 
 ### Manual install
 
@@ -89,7 +114,7 @@ Servers are read from the first source that provides them:
    from the hostname (override with `AUTO_CONTEXT_PROVIDER_ID`). Handy in
    containers: `-e AUTO_CONTEXT_ENDPOINT=http://host.docker.internal:8080/v1`.
 4. An `auto-context.servers.json` file next to the plugin file (what
-   `install.sh` maintains).
+   `install.sh` / `install.ps1` maintain).
 5. Otherwise the plugin idles and retries the environment/file sources on
    every poll.
 
